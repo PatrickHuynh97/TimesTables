@@ -15,4 +15,6 @@
     <string name="question">question</string>
     <string name="answer">answer</string>
     <string name="logo_for_application">logo for application</string>
+    <string name="c">C</string>
+    <string name="skip">skip</string>
 </resources>

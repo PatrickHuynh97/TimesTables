@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="#000000"
+            android:background="@drawable/my_button_bg"
             android:fontFamily="sans-serif-smallcaps"
             android:text="@string/easy"
             android:textColor="#FFFFFF" />
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="#000000"
+            android:background="@drawable/my_button_bg"
             android:fontFamily="sans-serif-smallcaps"
             android:text="@string/medium"
             android:textColor="#FFFFFF" />
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:background="#000000"
+            android:background="@drawable/my_button_bg"
             android:fontFamily="sans-serif-smallcaps"
             android:text="@string/hard"
             android:textColor="#FFFFFF" />
