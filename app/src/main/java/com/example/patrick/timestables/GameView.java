@@ -5,6 +5,8 @@ import android.os.Bundle;
 
 public class GameView extends AppCompatActivity {
 
+    private int difficulty;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

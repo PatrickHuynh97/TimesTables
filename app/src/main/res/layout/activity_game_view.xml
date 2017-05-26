@@ -6,6 +6,30 @@
     android:background="#000000"
     tools:context="com.example.patrick.timestables.GameView">
 
+    <TextView
+        android:id="@+id/question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:text="@string/question" />
+
+    <TextView
+        android:id="@+id/answer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/question"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/answer" />
+
+    <View
+        android:id="@+id/view"
+        android:layout_below="@+id/answer"
+        android:layout_width="0dp"
+        android:layout_height="30dp"></View>
+
     <Button
         android:id="@+id/one"
         style="@style/Widget.AppCompat.Button"
@@ -30,7 +54,7 @@
         android:background="@drawable/my_button_bg"
         android:textColor="#FFFFFF"
         android:layout_marginBottom="500dp"
-        android:layout_below="@+id/answer"
+        android:layout_below="@+id/view"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -150,23 +174,5 @@
         android:fontFamily="monospace"
         android:text="@string/c"
         android:textColor="#FFFFFF" />
-
-    <TextView
-        android:id="@+id/question"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/question"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="48dp" />
-
-    <TextView
-        android:id="@+id/answer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/answer"
-        android:layout_below="@+id/question"
-        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
