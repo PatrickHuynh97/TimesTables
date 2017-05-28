@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Random;
 /**
  * Created by Patrick on 24/05/2017.
+ * A simple mental math practice application
  */
 
 public class QuestionGenerator {
@@ -12,7 +13,8 @@ public class QuestionGenerator {
     private ArrayList<String> operators = new ArrayList<>();
     private int first,second;
     private String op;
-    public String question;
+    private String question;
+    private int answer;
 
     public QuestionGenerator(){
         operators.add("+");
@@ -22,74 +24,92 @@ public class QuestionGenerator {
     }
 
     // n = 0: Easy, n = 1: Medium, n=2: Hard
-    private int generateQuestion(int n){
+    private void generateQuestion(int n) {
         // choose random operator first
         op = operators.get(new Random().nextInt(operators.size()));
 
-        // depending on operator, difficulty of calculation will change (division is harder than addition)
-        if(n==0) {
-            first = (int) (Math.random() * 7 + 1);
-            second = (int) (Math.random() * 7 + 1);
-        }
-        else if(n==1){
-            if(op == "+") {
-                first = (int) (Math.random() * 50 + 17);
-                second = (int) (Math.random() * 50 + 17);
-            }
-            else if(op == "-") {
-                first = (int) (Math.random() * 50 + 17);
-                second = (int) (Math.random() * 50 + 17);
-            }
-            else{
-                first = (int) (Math.random() * 10 + 1);
-                second = (int) (Math.random() * 10 + 1);
-            }
-        }
-        else if(n==2) {
-            if(op == "+") {
-                first = (int) (Math.random() * 150 + 40);
-                second = (int) (Math.random() * 150 + 40);
-            }
-            else if(op == "-") {
-                first = (int) (Math.random() * 150 + 40);
-                second = (int) (Math.random() * 150 + 40);
-            }
-            else{
-                first = (int) (Math.random() * 15 + 5);
-                second = (int) (Math.random() * 15 + 5);
-            }
+        // depending on operator, difficulty of calculation will change (division/multiplication is harder than addition)
+        switch (n) {
+            case 0:
+                first = (int) (Math.random() * 7 + 1);
+                second = (int) (Math.random() * 7 + 1);
+                break;
+
+            case 1:
+                switch (op) {
+                    case "+":
+                        first = (int) (Math.random() * 50 + 17);
+                        second = (int) (Math.random() * 50 + 17);
+                        break;
+                    case "-":
+                        first = (int) (Math.random() * 50 + 17);
+                        second = (int) (Math.random() * 50 + 17);
+                        break;
+                    default:
+                        first = (int) (Math.random() * 10 + 1);
+                        second = (int) (Math.random() * 10 + 1);
+                        break;
+                }
+                break;
+
+            case 2:
+                switch (op) {
+                    case "+":
+                        first = (int) (Math.random() * 150 + 40);
+                        second = (int) (Math.random() * 150 + 40);
+                        break;
+                    case "-":
+                        first = (int) (Math.random() * 150 + 40);
+                        second = (int) (Math.random() * 150 + 40);
+                        break;
+                    default:
+                        first = (int) (Math.random() * 15 + 5);
+                        second = (int) (Math.random() * 15 + 5);
+                        break;
+                }
+            break;
+
         }
 
 
-        // return answer to the question generated
-        if(op == "+"){
+        // save answer to the question generated
+        switch (op) {
+            case "+":
+                question = first + " " + op + " " + second;
+                answer = first + second;
+                break;
 
-            question = first + " " +  op + " " + second;
-            return first + second;
-        }
-        if(op == "-") {
-            question = first + " " + op + " " + second;
-            return first - second;
-        }
-        // must ensure numbers are divisible
-        if(op == "/") {
-            // find product of random ints
-            int product = first * second;
-            // question becomes product / second
-            question = product + " \u00F7 " + second;
-            return product / second;
-        }
-        else {
-            question = first + " x " + second;
-            return first*second;
+            case "-":
+                question = first + " " + op + " " + second;
+                answer = first - second;
+                break;
+
+            // must ensure numbers are divisible
+            case "/":
+                // find product of random ints
+                int product = first * second;
+                // question becomes product / second
+                question = product + " \u00F7 " + second;
+                answer = product / second;
+                break;
+            case "x":
+                question = first + " x " + second;
+                answer = first * second;
+                break;
         }
     }
 
+
     public static void main(String args[]){
         QuestionGenerator questionGenerator = new QuestionGenerator();
-        System.out.println("easy question: " + questionGenerator.generateQuestion(0) + " = " + questionGenerator.question);
-        System.out.println("medium question: " + questionGenerator.generateQuestion(1) + " = " + questionGenerator.question);
-        System.out.println("hard question: " + questionGenerator.generateQuestion(2) + " = " + questionGenerator.question);
 
+        questionGenerator.generateQuestion(0);
+        System.out.println("easy question: " + questionGenerator.question + " = " + questionGenerator.answer);
+
+        questionGenerator.generateQuestion(1);
+        System.out.println("medium question: " + questionGenerator.question + " = " + questionGenerator.answer);
+
+        questionGenerator.generateQuestion(2);
+        System.out.println("hard question: " + questionGenerator.question + " = " + questionGenerator.answer);
     }
 }
