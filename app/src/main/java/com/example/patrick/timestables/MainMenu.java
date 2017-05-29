@@ -31,26 +31,25 @@ public class MainMenu extends AppCompatActivity implements OnClickListener{
             case R.id.EasyMode:
                 Log.d("MR.bool", "Button1 was clicked ");
                 Intent intent = new Intent(MainMenu.this, GameView.class);
-                intent.putExtra("d", 0);
+                intent.putExtra("d", "easy");
                 startActivity(intent);
                 break;
 
             case R.id.MediumMode:
                 Log.d("MR.bool", "Button2 was clicked ");
                 Intent intent1 = new Intent(MainMenu.this, GameView.class);
-                intent1.putExtra("d", 1);
+                intent1.putExtra("d", "medium");
                 startActivity(intent1);
                 break;
 
             case R.id.HardMode:
                 Log.d("MR.bool", "Button2 was clicked ");
                 Intent intent2 = new Intent(MainMenu.this, GameView.class);
-                intent2.putExtra("d", 2);
+                intent2.putExtra("d", "hard");
                 startActivity(intent2);
                 break;
 
             default:
-
                 break;
         }
     }

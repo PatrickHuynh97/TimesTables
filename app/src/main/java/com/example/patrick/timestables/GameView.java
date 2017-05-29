@@ -1,7 +1,9 @@
 package com.example.patrick.timestables;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.view.View.OnClickListener;
@@ -12,16 +14,25 @@ import org.w3c.dom.Text;
 
 public class GameView extends AppCompatActivity implements OnClickListener {
 
-    private int difficulty;
+    private String difficulty;
     private Button zero, one, two, three, four, five, six, seven, eight, nine, skip, clear;
     private TextView question, answer;
+
+    private QuestionGenerator qGen;
+    private String q,a;
+
+    private int correct = 0,asked = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_view);
 
-        // find and set buttons locally
+        Intent intent = getIntent();
+        difficulty = intent.getStringExtra("d");
+
+        // find and set buttons/Textviews locally
         zero = (Button) findViewById(R.id.zero);
         one = (Button) findViewById(R.id.one);
         two = (Button) findViewById(R.id.two);
@@ -48,10 +59,43 @@ public class GameView extends AppCompatActivity implements OnClickListener {
         clear.setOnClickListener(this);
         skip.setOnClickListener(this);
 
-        // find and set text views locally
         question = (TextView) findViewById(R.id.question);
         answer = (TextView) findViewById(R.id.answer);
 
+        // initiate questions. Set first question
+        qGen = new QuestionGenerator();
+        setQuestion();
+    }
+
+    private void setQuestion(){
+        qGen.generateQuestion(difficulty);
+
+        q = qGen.getQuestion();
+        a = qGen.getAnswer();
+
+        question.setText(q);
+        answer.setText("");
+    }
+
+    // If answer is correct, generate new question. If not, do nothing. User must "skip" if they cannot do the question
+    private void checkAnswer(){
+        Log.i("GOAL", answer.getText() + " = " + a);
+
+        if (answer.getText().toString().equals(a)){
+            Log.i("CORRECT", question.getText() + " = " + answer.getText());
+            asked++;
+            correct++;
+
+            if(asked == 10){                        // if 10 questions have been asked, end game
+                System.out.println("End game. " + correct + "/" + 10 + " correct answers!");
+            }
+            else {                                  // else generate new question
+                setQuestion();
+            }
+        }
+        else{
+            Log.d("INCORRECT ANSWER", "incorrect answer given");
+        }
     }
 
     @Override
@@ -59,33 +103,43 @@ public class GameView extends AppCompatActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.zero:
                 answer.append("0");
+                checkAnswer();
                 break;
             case R.id.one:
                 answer.append("1");
+                checkAnswer();
                 break;
             case R.id.two:
                 answer.append("2");
+                checkAnswer();
                 break;
             case R.id.three:
                 answer.append("3");
+                checkAnswer();
                 break;
             case R.id.four:
                 answer.append("4");
+                checkAnswer();
                 break;
             case R.id.five:
                 answer.append("5");
+                checkAnswer();
                 break;
             case R.id.six:
                 answer.append("6");
+                checkAnswer();
                 break;
             case R.id.seven:
                 answer.append("7");
+                checkAnswer();
                 break;
             case R.id.eight:
                 answer.append("8");
+                checkAnswer();
                 break;
             case R.id.nine:
                 answer.append("9");
+                checkAnswer();
                 break;
             case R.id.clear:
                 String current = answer.getText().toString();
@@ -100,6 +154,14 @@ public class GameView extends AppCompatActivity implements OnClickListener {
                 break;
             case R.id.skip:
                 answer.setText("");
+                asked++;
+
+                if(asked == 10){                        // if 10 questions have been asked, end game
+                    System.out.println("End game. " + correct + "/" + 10 + " correct answers!");
+                }
+                else {                                  // else generate new question
+                    setQuestion();
+                }
                 break;
         }
     }
