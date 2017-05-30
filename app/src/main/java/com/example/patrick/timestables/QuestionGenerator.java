@@ -1,5 +1,6 @@
 package com.example.patrick.timestables;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Random;
 /**
@@ -7,7 +8,7 @@ import java.util.Random;
  * A simple mental math practice application
  */
 
-public class QuestionGenerator {
+class QuestionGenerator {
 
     // \u00F7 for division sign
     private ArrayList<String> operators = new ArrayList<>();
@@ -28,11 +29,14 @@ public class QuestionGenerator {
         // choose random operator first
         op = operators.get(new Random().nextInt(operators.size()));
 
+        System.out.println("Generating a " + d + " difficulty question");
+
         // depending on operator, difficulty of calculation will change (division/multiplication is harder than addition)
         switch (d) {
             case "easy":
                 switch (op) {
                     case "-":
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 7 + 1);
                         second = (int) (Math.random() * 7 + 1);
 
@@ -43,6 +47,7 @@ public class QuestionGenerator {
                         break;
 
                     default:
+                        System.out.println("operator is not subtraction");
                         first = (int) (Math.random() * 7 + 1);
                         second = (int) (Math.random() * 7 + 1);
                         break;
@@ -52,22 +57,25 @@ public class QuestionGenerator {
             case "medium":
                 switch (op) {
                     case "+":
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 50 + 17);
                         second = (int) (Math.random() * 50 + 17);
                         break;
                     case "-":
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 50 + 17);
                         second = (int) (Math.random() * 50 + 17);
 
-                        while(first < second) second = (int) Math.random() * 50 + 17;
+                        while(first < second) second = (int) (Math.random() * 50 + 17);
 
                         break;
                     case "*":
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 12 + 4);
                         second = (int) (Math.random() * 12 + 4);
-                        while(first < second) second = (int) Math.random() * 50 + 17;
                         break;
                     default:
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 11 + 4);
                         second = (int) (Math.random() * 11 + 3);
                         break;
@@ -77,19 +85,22 @@ public class QuestionGenerator {
             case "hard":
                 switch (op) {
                     case "+":
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 150 + 40);
                         second = (int) (Math.random() * 150 + 40);
                         break;
                     case "-":
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 150 + 40);
                         second = (int) (Math.random() * 150 + 40);
 
                         System.out.println(first + " < " + second);
                         while (first < second) {
-                            second = (int) Math.random() * 150 + 40;
+                            second = (int) (Math.random() * 150 + 40);
                         }
                         break;
                     default:
+                        System.out.println("operator to be used is " + op);
                         first = (int) (Math.random() * 15 + 7);
                         second = (int) (Math.random() * 15 + 7);
                         break;
@@ -105,6 +116,7 @@ public class QuestionGenerator {
         // save answer to the question generated
         switch (op) {
             case "+":
+                System.out.println("Generating answer");
                 question = first + " " + op + " " + second;
                 int a = first + second;
                 answer = Integer.toString(a);
@@ -112,12 +124,16 @@ public class QuestionGenerator {
 
             case "-":
                 question = first + " " + op + " " + second;
+                System.out.println("Generating answer");
+
                 int a1 = first - second;
                 answer = Integer.toString(a1);
                 break;
 
             // must ensure numbers are divisible
             case "/":
+                System.out.println("Generating answer");
+
                 // find product of random ints
                 int product = first * second;
                 // question becomes product / second
@@ -127,6 +143,7 @@ public class QuestionGenerator {
                 break;
 
             case "*":
+                System.out.println("Generating answer");
                 question = first + " x " + second;
                 int a3 = first * second;
                 answer = Integer.toString(a3);
@@ -142,16 +159,4 @@ public class QuestionGenerator {
         return answer;
     }
 
-    public static void main(String args[]){
-        QuestionGenerator questionGenerator = new QuestionGenerator();
-
-        questionGenerator.generateQuestion("easy");
-        System.out.println("easy question: " + questionGenerator.question + " = " + questionGenerator.answer);
-
-        questionGenerator.generateQuestion("medium");
-        System.out.println("medium question: " + questionGenerator.question + " = " + questionGenerator.answer);
-
-        questionGenerator.generateQuestion("hard");
-        System.out.println("hard question: " + questionGenerator.question + " = " + questionGenerator.answer);
-    }
 }

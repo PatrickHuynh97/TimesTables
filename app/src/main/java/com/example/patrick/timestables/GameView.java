@@ -4,10 +4,16 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -22,6 +28,10 @@ public class GameView extends AppCompatActivity implements OnClickListener {
     private String q,a;
 
     private int correct = 0,asked = 0;
+
+    private PopupWindow result;
+    private LayoutInflater layoutInflater;
+    private LinearLayout resultLayout;
 
 
     @Override
@@ -61,6 +71,8 @@ public class GameView extends AppCompatActivity implements OnClickListener {
 
         question = (TextView) findViewById(R.id.question);
         answer = (TextView) findViewById(R.id.answer);
+
+        resultLayout = (LinearLayout) findViewById(R.id.gameViewLayout);
 
         // initiate questions. Set first question
         qGen = new QuestionGenerator();
@@ -158,6 +170,15 @@ public class GameView extends AppCompatActivity implements OnClickListener {
 
                 if(asked == 10){                        // if 10 questions have been asked, end game
                     System.out.println("End game. " + correct + "/" + 10 + " correct answers!");
+
+                    // Create popup window to display result
+                    layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+                    ViewGroup container =  (ViewGroup) layoutInflater.inflate(R.layout.activity_result_window, null);
+
+                    result = new PopupWindow(container, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+                    result.showAtLocation(resultLayout, Gravity.CENTER,0,0);
+                    result.setOutsideTouchable(false);
+
                 }
                 else {                                  // else generate new question
                     setQuestion();
