@@ -1,6 +1,9 @@
 package com.example.patrick.timestables;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -8,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -100,6 +104,7 @@ public class GameView extends AppCompatActivity implements OnClickListener {
 
             if(asked == 10){                        // if 10 questions have been asked, end game
                 System.out.println("End game. " + correct + "/" + 10 + " correct answers!");
+                displayResultWindow();
             }
             else {                                  // else generate new question
                 setQuestion();
@@ -157,7 +162,7 @@ public class GameView extends AppCompatActivity implements OnClickListener {
                 String current = answer.getText().toString();
                 if(current.length()==0){
                     // do nothing if trying to erase nothing
-                    System.out.println("Nothing in EditText");
+                    System.out.println("Nothing to erase");
                 }
                 else {
                     current = current.substring(0, current.length() - 1);
@@ -169,21 +174,58 @@ public class GameView extends AppCompatActivity implements OnClickListener {
                 asked++;
 
                 if(asked == 10){                        // if 10 questions have been asked, end game
-                    System.out.println("End game. " + correct + "/" + 10 + " correct answers!");
-
-                    // Create popup window to display result
-                    layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-                    ViewGroup container =  (ViewGroup) layoutInflater.inflate(R.layout.activity_result_window, null);
-
-                    result = new PopupWindow(container, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
-                    result.showAtLocation(resultLayout, Gravity.CENTER,0,0);
-                    result.setOutsideTouchable(false);
-
+                    displayResultWindow();
                 }
                 else {                                  // else generate new question
                     setQuestion();
                 }
                 break;
         }
+    }
+
+    private void displayResultWindow(){
+        dimBackground();
+
+        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        ViewGroup container =  (ViewGroup) layoutInflater.inflate(R.layout.activity_result_window, null);
+
+        result = new PopupWindow(container, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        result.showAtLocation(resultLayout, Gravity.CENTER,0,0);
+
+
+        System.out.println("popupWindow created");
+
+        TextView result = (TextView) container.findViewById(R.id.result);
+        Button menu = (Button) container.findViewById(R.id.MainMenu);
+        Button restart = (Button) container.findViewById(R.id.TryAgain);
+
+        System.out.println("this should all be done");
+        result.setText(correct + "/10");
+
+        menu.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("Going back to Main Menu");
+                Intent intent = new Intent(GameView.this, MainMenu.class);
+                startActivity(intent);
+            }
+        });
+
+        restart.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(GameView.this, GameView.class);
+                intent.putExtra("d", difficulty);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private void dimBackground() {
+        layoutInflater = (LayoutInflater) getApplicationContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+        ViewGroup container =  (ViewGroup) layoutInflater.inflate(R.layout.fade_popup, null);
+
+        result = new PopupWindow(container, LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT, true);
+        result.showAtLocation(resultLayout, Gravity.CENTER,0,0);
     }
 }
